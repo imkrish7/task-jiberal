@@ -25,12 +25,12 @@ async function getERC20Transfers(erc20) {
 		}
 	});
 }
-// getERC20Transfers();
 
 route.get('/:erc20', async (req, res) => {
 	let erc20 = req.params.erc20 || '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
-	let limit = Number(req.query.limit);
-	let skip = Number(req.query.skip);
+	let limit = Number(req.query.limit) || 10;
+	let skip = Number(req.query.skip) || 0;
+
 	try {
 		let transfers = await Transfer.find({ account: erc20 }).skip(skip).limit(limit);
 		return res.status(200).json({ success: true, transfers });
@@ -41,7 +41,6 @@ route.get('/:erc20', async (req, res) => {
 
 route.post('/:erc20', async (req, res) => {
 	let erc20 = req.params.erc20 || '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
-
 	try {
 		getERC20Transfers(erc20);
 		return res.status(200).json({ success: true });

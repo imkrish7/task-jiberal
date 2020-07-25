@@ -7,6 +7,7 @@ const latestTransfer = () => {
 	let erc20 = '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
 	const xhr = new XMLHttpRequest();
 	xhr.open('POST', `/api/v1/transactions/${erc20}`);
+	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.onload = () => {
 		if (xhr.status == 200) {
 			// do something
@@ -47,11 +48,11 @@ const populateTable = data => {
 const getTransfer = () => {
 	const xhr = new XMLHttpRequest();
 	let erc20 = '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
-	const url = `/api/v1/transactions/${erc20}?limit=10&skip=0`;
+	const url = `/api/v1/transactions/${erc20}/?limit=10&skip=0`;
 	xhr.open('GET', url);
 	xhr.responseType = 'json';
+	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.onload = () => {
-		console.log(xhr.status);
 		if (xhr.status == 200) {
 			console.log(xhr.response);
 			$tabel.style.display = 'block';
@@ -63,6 +64,7 @@ const getTransfer = () => {
 			$error.innerHTML = 'Some Internal Error';
 		}
 	};
+
 	xhr.send();
 };
 
