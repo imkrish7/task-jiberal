@@ -28,7 +28,7 @@ async function getERC20Transfers(erc20) {
 // getERC20Transfers();
 
 route.get('/:erc20', async (req, res) => {
-	let erc20 = '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
+	let erc20 = req.params.erc20 || '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
 	let limit = Number(req.query.limit);
 	let skip = Number(req.query.skip);
 	try {
@@ -40,10 +40,10 @@ route.get('/:erc20', async (req, res) => {
 });
 
 route.post('/:erc20', async (req, res) => {
-	let erc20 = req.params.erc20;
+	let erc20 = req.params.erc20 || '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
 
 	try {
-		await getERC20Transfers(erc20);
+		getERC20Transfers(erc20);
 		return res.status(200).json({ success: true });
 	} catch (error) {
 		return res.status(500).json({ success: false, message: 'Internal Error' });

@@ -1,12 +1,23 @@
 const myModal = document.getElementById('myModal');
 const $tabel = document.getElementById('table');
+const $success = document.getElementById('success');
+const $error = document.getElementById('error');
+
 const latestTransfer = () => {
+	let erc20 = '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
 	const xhr = new XMLHttpRequest();
-	xhr.open('POST', '/api/v1/transactions/12');
+	xhr.open('POST', `/api/v1/transactions/${erc20}`);
 	xhr.onload = () => {
 		if (xhr.status == 200) {
 			// do something
+			$error.style.display = 'none';
+			$success.innerHTML = 'Transfer Completed';
 			myModal.style.display = 'block';
+		} else {
+			myModal.style.display = 'block';
+			$success.style.display = 'none';
+			$error.style.display = 'block';
+			$error.innerHTML = 'Some Internal Error';
 		}
 	};
 	xhr.send();
@@ -35,15 +46,21 @@ const populateTable = data => {
 
 const getTransfer = () => {
 	const xhr = new XMLHttpRequest();
-	const erc20 = '12';
+	let erc20 = '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7';
 	const url = `/api/v1/transactions/${erc20}?limit=10&skip=0`;
 	xhr.open('GET', url);
 	xhr.responseType = 'json';
 	xhr.onload = () => {
+		console.log(xhr.status);
 		if (xhr.status == 200) {
 			console.log(xhr.response);
 			$tabel.style.display = 'block';
 			populateTable(xhr.response.transfers);
+		} else {
+			myModal.style.display = 'block';
+			$success.style.display = 'none';
+			$error.style.display = 'block';
+			$error.innerHTML = 'Some Internal Error';
 		}
 	};
 	xhr.send();

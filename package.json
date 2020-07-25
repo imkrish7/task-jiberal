@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "NODE_ENV='development' nodemon server.js"
+		"dev": "NODE_ENV='development' nodemon server.js",
+		"production": "NODE_ENV='production' server.js"
 	},
 	"keywords": [],
 	"author": "krishna",
